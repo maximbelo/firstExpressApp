@@ -16,7 +16,19 @@ const app = express();
 // / => home (usually refered to as the root route)
 
 app.get("/", (req, res) => {
-  res.send("Welcome home!");
+  res.send("Welcome home!!!");
+});
+
+app.get("/r/:subreddit", (req, res) => {
+  const { subreddit } = req.params;
+  res.send(`<h1> Browsing the ${subreddit} subreddit </h1>`);
+});
+
+app.get("/r/:subreddit/:postID", (req, res) => {
+  const { subreddit, postID } = req.params;
+  res.send(
+    `<h1> Viewing the POST ID: ${postID} on the ${subreddit} subreddit </h1>`
+  );
 });
 
 app.post("./cats", (req, res) => {
@@ -32,6 +44,18 @@ app.get("/dogs", (req, res) => {
   res.send("WOOF!");
 });
 
+// Working with query strings
+app.get("/search", (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    res.send("NOTHING FOUND IF NOTHING SEACHED!");
+  }
+
+  res.send(`<h1> Search results for: ${q} </h1>`);
+});
+
+// Has to be last
 app.get("*", (req, res) => {
   res.send("I don't know that path!");
 });
